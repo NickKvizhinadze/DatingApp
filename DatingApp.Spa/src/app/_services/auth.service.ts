@@ -10,7 +10,6 @@ export class AuthService {
     constructor(private http: Http) { }
 
     login(model: any) {
-        
         return this.http.post(this.baseUrl + 'login', model, this.requestOptions()).map((response: Response) => {
             const user = response.json();
             if (user) {
