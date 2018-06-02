@@ -28,6 +28,7 @@ namespace DatingApp.Api
         {
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<Seed>();            
             services.AddMvc();
             services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -45,7 +46,7 @@ namespace DatingApp.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -66,6 +67,7 @@ namespace DatingApp.Api
                 });
             }
 
+            //seeder.SeedUsers();
             app.UseCors(c => c.AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowAnyOrigin()
