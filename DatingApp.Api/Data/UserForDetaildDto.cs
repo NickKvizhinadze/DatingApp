@@ -22,7 +22,7 @@ namespace DatingApp.Api.Data
         public string Country { get; set; }
         public string PhotoUrl { get; set; }
 
-        public ICollection<Photo> Photos { get; set; }
+        public ICollection<PhotosForDetailedDto> Photos { get; set; }
 
     }
 }
