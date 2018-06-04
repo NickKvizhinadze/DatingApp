@@ -66,7 +66,7 @@ namespace DatingApp.Api.Controllers
                     new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
                     new Claim(ClaimTypes.Name, existingUser.Username)
                 }),
-                Expires = DateTime.Now.AddMinutes(1),
+                Expires = DateTime.Now.AddYears(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
