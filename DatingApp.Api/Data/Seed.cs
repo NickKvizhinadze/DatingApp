@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DatingApp.Api.Data
+namespace DatingApp.Api.Dtos
 {
     public class Seed
     {

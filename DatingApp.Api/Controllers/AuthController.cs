@@ -1,4 +1,4 @@
-﻿using DatingApp.Api.Data;
+﻿using DatingApp.Api.Dtos;
 using DatingApp.Api.Dtos;
 using DatingApp.Api.Models;
 using Microsoft.AspNetCore.Mvc;

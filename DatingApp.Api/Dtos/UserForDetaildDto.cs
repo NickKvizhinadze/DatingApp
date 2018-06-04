@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DatingApp.Api.Data
+namespace DatingApp.Api.Dtos
 {
     public class UserForDetaildDto
     {

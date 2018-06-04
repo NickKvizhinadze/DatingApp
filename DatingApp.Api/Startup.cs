@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Text;
-using DatingApp.Api.Data;
+using DatingApp.Api.Dtos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;

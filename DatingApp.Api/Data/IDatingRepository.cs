@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DatingApp.Api.Data
+namespace DatingApp.Api.Dtos
 {
     public interface IDatingRepository
     {

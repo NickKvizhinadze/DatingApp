@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using DatingApp.Api.Data;
+using DatingApp.Api.Dtos;
 
 namespace DatingApp.Api.Controllers
 {
