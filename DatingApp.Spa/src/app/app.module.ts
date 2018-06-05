@@ -22,6 +22,9 @@ import { MessagesComponent } from './messages/messages.component';
 import { NavComponent } from './nav/nav.component';
 import { RegisterComponent } from './register/register.component';
 import { appRoutes } from './routes';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent0unsaved-changes.guard';
 
 
 @NgModule({
@@ -34,7 +37,8 @@ import { appRoutes } from './routes';
     MessagesComponent,
     MemberListComponent,
     MemberCardComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    MemberEditComponent
 ],
   imports: [
     AuthModule,
@@ -48,11 +52,13 @@ import { appRoutes } from './routes';
   ],
   providers: [
     AuthGuard,
+    PreventUnsavedChanges,
     AlertifyService,
     AuthService,
     UserService,
     MemberDetailResolver,
-    MemberListResolver
+    MemberListResolver,
+    MemberEditResolver
   ],
   bootstrap: [AppComponent]
 })
