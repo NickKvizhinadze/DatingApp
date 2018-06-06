@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Headers, RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
@@ -29,6 +28,12 @@ export class UserService {
     updateUser(id: number, user: User) {
         return this.authHttp
             .put(this.baseUrl + 'users/' + id, user)
+            .catch(this.handleError);
+    }
+
+    setMainPhoto(userId: number, photoId: number) {
+        return this.authHttp
+            .post(`${this.baseUrl}users/${userId}/photos/${photoId}/setMain`, {})
             .catch(this.handleError);
     }
 
