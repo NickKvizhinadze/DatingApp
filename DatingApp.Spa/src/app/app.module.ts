@@ -4,16 +4,8 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FileUploadModule } from 'ng2-file-upload';
-import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
-import { AuthGuard } from './_guards/auth.guard';
-import { PreventUnsavedChanges } from './_guards/prevent0unsaved-changes.guard';
-import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
-import { MemberEditResolver } from './_resolvers/member-edit.resolver';
-import { MemberListResolver } from './_resolvers/member-list.resolver';
-import { AlertifyService } from './_services/alertify.service';
-import { AuthService } from './_services/auth.service';
-import { UserService } from './_services/user.service';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './home/home.component';
@@ -27,6 +19,14 @@ import { MessagesComponent } from './messages/messages.component';
 import { NavComponent } from './nav/nav.component';
 import { RegisterComponent } from './register/register.component';
 import { appRoutes } from './routes';
+import { AuthGuard } from './_guards/auth.guard';
+import { PreventUnsavedChanges } from './_guards/prevent0unsaved-changes.guard';
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
+import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { AlertifyService } from './_services/alertify.service';
+import { AuthService } from './_services/auth.service';
+import { UserService } from './_services/user.service';
 
 
 @NgModule({
@@ -52,6 +52,7 @@ import { appRoutes } from './routes';
     RouterModule.forRoot(appRoutes),
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     NgxGalleryModule,
     FileUploadModule
   ],
