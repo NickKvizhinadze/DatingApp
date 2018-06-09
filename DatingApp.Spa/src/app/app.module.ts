@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { TimeAgoPipe } from 'time-ago-pipe';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './home/home.component';
@@ -42,6 +43,7 @@ import { UserService } from './_services/user.service';
     MemberDetailComponent,
     MemberEditComponent,
     PhotoEditComponent
+    TimeAgoPipe
 ],
   imports: [
     AuthModule,
