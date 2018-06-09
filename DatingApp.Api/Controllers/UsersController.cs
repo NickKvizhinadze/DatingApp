@@ -1,14 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using AutoMapper;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
 using DatingApp.Api.Dtos;
-using System.Security.Claims;
-using System;
+using DatingApp.Api.Helpers;
 
 namespace DatingApp.Api.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     public class UsersController : Controller
