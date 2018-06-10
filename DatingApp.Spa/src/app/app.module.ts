@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FileUploadModule } from 'ng2-file-upload';
-import { BsDatepickerModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, BsDropdownModule, PaginationModule, TabsModule } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { AppComponent } from './app.component';
@@ -42,7 +42,7 @@ import { UserService } from './_services/user.service';
     MemberCardComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    PhotoEditComponent
+    PhotoEditComponent,
     TimeAgoPipe
 ],
   imports: [
@@ -55,6 +55,7 @@ import { UserService } from './_services/user.service';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
     NgxGalleryModule,
     FileUploadModule
   ],
