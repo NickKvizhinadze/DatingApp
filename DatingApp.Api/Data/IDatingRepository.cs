@@ -1,5 +1,5 @@
-﻿using DatingApp.Api.Models;
-using System.Collections.Generic;
+﻿using DatingApp.Api.Helpers;
+using DatingApp.Api.Models;
 using System.Threading.Tasks;
 
 namespace DatingApp.Api.Dtos
@@ -10,7 +10,7 @@ namespace DatingApp.Api.Dtos
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
 
-        Task<IEnumerable<User>> GetUsers();
+        Task<PagedList<User>> GetUsers(UserParams userParams)
 
         Task<User> GetUser(int id);
 
