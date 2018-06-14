@@ -31,12 +31,28 @@ namespace DatingApp.Api.Dtos
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(u => u.Photos).AsQueryable();
+            var users = _context.Users
+                .Include(u => u.Photos)
+                .OrderByDescending(u => u.LastActive)
+                .AsQueryable();
 
             users = users.Where(u => u.Id != userParams.UserId && u.Gender == userParams.Gender);
 
             if (userParams.MinAge != 18 || userParams.MaxAge != 99)
                 users = users.Where(u => u.DateOfBirth.CalculateAge() >= userParams.MinAge && u.DateOfBirth.CalculateAge() <= userParams.MaxAge);
+
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                switch (userParams.OrderBy)
+                {
+                    case "created":
+                        users = users.OrderByDescending(u => u.Created);
+                        break;
+                    default:
+                        users = users.OrderByDescending(u => u.DateOfBirth);
+                        break;
+                }
+            }
 
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }

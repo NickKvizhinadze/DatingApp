@@ -38,6 +38,7 @@ export class MemberListComponent implements OnInit {
 
   resetFilter() {
     this.initUserParams();
+    this.userParams.orderBy = 'lastActive';
     this.loadUsers();
   }
 
