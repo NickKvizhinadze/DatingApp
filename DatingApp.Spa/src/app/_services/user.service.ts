@@ -15,17 +15,26 @@ export class UserService {
     baseUrl = environment.apiUrl;
     constructor(private authHttp: AuthHttp) { }
 
-    getUsers(page?: number, itemsPerPage?: number, userParams?: any) {
+    getUsers(page?: number, itemsPerPage?: number, userParams?: any, likesParam?: string) {
         const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
         let queryString = '?';
         if (page != null && itemsPerPage != null) {
-            queryString += `pageNumber=${page}&pageSize=${itemsPerPage}$`;
+            queryString += `pageNumber=${page}&pageSize=${itemsPerPage}&`;
         }
 
         if (userParams) {
             queryString += `minAge=${userParams.minAge}&maxAge=` +
-                `${userParams.maxAge}&gender=${userParams.gender}&orderBy=${userParams.orderBy}`;
+                `${userParams.maxAge}&gender=${userParams.gender}&orderBy=${userParams.orderBy}&`;
         }
+
+        if (likesParam === 'Likers') {
+            queryString += 'likers=true&';
+        }
+
+        if (likesParam === 'Likees') {
+            queryString += 'likees=true&';
+        }
+        const test = `${this.baseUrl}users${queryString}`;
         return this.authHttp.get(`${this.baseUrl}users${queryString}`)
             .map((response: Response) => {
                 paginatedResult.result = response.json();
@@ -63,7 +72,44 @@ export class UserService {
             .catch(this.handleError);
     }
 
+    sendLike(id: number, recipientId: number) {
+        return this.authHttp
+            .post(`${this.baseUrl}users/${id}/like/${recipientId}`, {})
+            .catch(this.handleError);
+    }
+
+
+    getLikeUsers(page?: number, itemsPerPage?: number, likesParam?: string) {
+        const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+        let queryString = '?';
+        if (page != null && itemsPerPage != null) {
+            queryString += `pageNumber=${page}&pageSize=${itemsPerPage}&`;
+        }
+
+        if (likesParam === 'Likers') {
+            queryString += 'likers=true&';
+        }
+
+        if (likesParam === 'Likees') {
+            queryString += 'likees=true&';
+        }
+        const test = `${this.baseUrl}users/getUserLikes${queryString}`;
+        return this.authHttp.get(`${this.baseUrl}users/getUserLikes${queryString}`)
+            .map((response: Response) => {
+                paginatedResult.result = response.json();
+                if (response.headers.get('Pagination') != null) {
+                    paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+                }
+
+                return paginatedResult;
+            })
+            .catch(this.handleError);
+    }
+
     private handleError(error: any) {
+        if (error.status === 400) {
+            return Observable.throw(error._body);
+        }
         const applicationError = error.headers.get('Application-Error');
         if (applicationError) {
             return Observable.throw(applicationError);
