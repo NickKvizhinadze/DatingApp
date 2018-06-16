@@ -39,18 +39,6 @@ namespace DatingApp.Api.Dtos
 
             users = users.Where(u => u.Id != userParams.UserId && u.Gender == userParams.Gender);
 
-            if (userParams.Likers)
-            {
-                var userLikers = await GetUserLikes(userParams.UserId, userParams.Likers);
-                users = users.Where(u => userLikers.Any(l => l.LikerId == u.Id));
-            }
-            
-            if (userParams.Likees)
-            {
-                var userLikees = await GetUserLikes(userParams.UserId, userParams.Likers);
-                users = users.Where(u => userLikees.Any(l => l.LikeeId == u.Id));
-            }
-
             if (userParams.MinAge != 18 || userParams.MaxAge != 99)
                 users = users.Where(u => u.DateOfBirth.CalculateAge() >= userParams.MinAge && u.DateOfBirth.CalculateAge() <= userParams.MaxAge);
 
@@ -90,17 +78,33 @@ namespace DatingApp.Api.Dtos
             return await _context.Likes.FirstOrDefaultAsync(l => l.LikerId == userId && l.LikeeId == recipientId);
         }
 
-        private async Task<IEnumerable<Like>> GetUserLikes(int id, bool likers)
+        public async Task<PagedList<User>> GetUserLikes(UserParams userParams)
         {
-            var user = await _context.Users
+            var likes = _context.Likes
                 .Include(u => u.Likee)
+                .ThenInclude(u => u.Photos)
                 .Include(u => u.Liker)
-                .FirstOrDefaultAsync(u => u.Id == id);
-            if (likers)
-                return user.Likee.Where(u => u.LikeeId == id);
+                .ThenInclude(u => u.Photos);
 
-            return user.Liker.Where(u => u.LikerId == id);
 
+            if (userParams.Likees)
+            {
+                var likees = await likes.Where(l => l.LikeeId == userParams.UserId).ToListAsync();
+                if (likees == null)
+                    return null;
+                return PagedList<User>.Create(likees.Select(l => l.Liker), userParams.PageNumber, userParams.PageSize);
+
+            }
+
+            if (userParams.Likers)
+            {
+                var likers = await likes.Where(l => l.LikerId == userParams.UserId).ToListAsync();
+                if (likers == null)
+                    return null;
+                return PagedList<User>.Create(likers.Select(l => l.Likee), userParams.PageNumber, userParams.PageSize);
+            }
+
+            return null;
         }
     }
 }

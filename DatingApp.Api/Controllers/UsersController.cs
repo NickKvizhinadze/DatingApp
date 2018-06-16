@@ -82,7 +82,7 @@ namespace DatingApp.Api.Controllers
             if (await _repo.GetUser(recipientId) == null)
                 return NotFound();
 
-            like =  new Like
+            like = new Like
             {
                 LikerId = id,
                 LikeeId = recipientId
@@ -90,10 +90,23 @@ namespace DatingApp.Api.Controllers
 
             _repo.Add(like);
 
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
                 return Ok();
 
             return BadRequest("Faild to like user");
+        }
+
+        [HttpGet("getUserLikes")]
+        public async Task<IActionResult> GetUserLikes(UserParams userParams)
+        {
+            userParams.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var users = await _repo.GetUserLikes(userParams);
+            if(users == null)
+                return NotFound();
+
+            var result = _mapper.Map<IEnumerable<UserForListDto>>(users);
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+            return Ok(result);
         }
     }
 }
