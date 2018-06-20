@@ -106,5 +106,20 @@ namespace DatingApp.Api.Dtos
 
             return null;
         }
+
+        public async Task<Message> GetMessage(int id)
+        {
+            return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public Task<PagedList<Message>> GetMessagesForUser()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<Message>> GetMessagesThread(int userId, int recipientId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

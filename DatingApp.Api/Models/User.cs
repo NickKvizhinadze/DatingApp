@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatingApp.Api.Models
 {
@@ -28,6 +25,8 @@ namespace DatingApp.Api.Models
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Like> Liker { get; set; }
         public ICollection<Like> Likee { get; set; }
+        public ICollection<Message> MessageSent { get; set; }
+        public ICollection<Message> MessageRecivied { get; set; }
 
         #region Ctor
         public User()
