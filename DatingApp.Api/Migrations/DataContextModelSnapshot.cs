@@ -45,11 +45,9 @@ namespace DatingApp.Api.Migrations
 
                     b.Property<bool>("IsRead");
 
-                    b.Property<int>("RecipeintId");
-
                     b.Property<bool>("RecipientDeleted");
 
-                    b.Property<int?>("RecipientId");
+                    b.Property<int>("RecipientId");
 
                     b.Property<bool>("SenderDeleted");
 

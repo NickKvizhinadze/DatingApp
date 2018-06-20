@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DatingApp.Api.Controllers
+namespace DatingApp.Api.Dtos
 {
     [Route("api/[controller]")]
     public class AuthController : Controller

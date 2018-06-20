@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DatingApp.Api.Migrations
 {
-    public partial class AddedMessages : Migration
+    public partial class AddedMessags : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,9 +18,8 @@ namespace DatingApp.Api.Migrations
                     DateRead = table.Column<DateTime>(type: "TEXT", nullable: true),
                     DateSent = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsRead = table.Column<bool>(type: "INTEGER", nullable: false),
-                    RecipeintId = table.Column<int>(type: "INTEGER", nullable: false),
                     RecipientDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    RecipientId = table.Column<int>(type: "INTEGER", nullable: true),
+                    RecipientId = table.Column<int>(type: "INTEGER", nullable: false),
                     SenderDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     SenderId = table.Column<int>(type: "INTEGER", nullable: false)
                 },

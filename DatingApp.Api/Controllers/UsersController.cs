@@ -9,7 +9,7 @@ using DatingApp.Api.Dtos;
 using DatingApp.Api.Helpers;
 using DatingApp.Api.Models;
 
-namespace DatingApp.Api.Controllers
+namespace DatingApp.Api.Dtos
 {
     [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]

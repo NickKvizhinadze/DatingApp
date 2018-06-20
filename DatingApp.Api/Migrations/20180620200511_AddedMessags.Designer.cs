@@ -11,8 +11,8 @@ using System;
 namespace DatingApp.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20180620193014_AddedMessages")]
-    partial class AddedMessages
+    [Migration("20180620200511_AddedMessags")]
+    partial class AddedMessags
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,11 +46,9 @@ namespace DatingApp.Api.Migrations
 
                     b.Property<bool>("IsRead");
 
-                    b.Property<int>("RecipeintId");
-
                     b.Property<bool>("RecipientDeleted");
 
-                    b.Property<int?>("RecipientId");
+                    b.Property<int>("RecipientId");
 
                     b.Property<bool>("SenderDeleted");
 

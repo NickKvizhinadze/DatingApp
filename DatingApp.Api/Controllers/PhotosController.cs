@@ -11,7 +11,7 @@ using DatingApp.Api.Dtos;
 using DatingApp.Api.Helpers;
 using DatingApp.Api.Models;
 
-namespace DatingApp.Api.Controllers
+namespace DatingApp.Api.Dtos
 {
     [Authorize]
     [Route("api/users/{userId}/photos")]
