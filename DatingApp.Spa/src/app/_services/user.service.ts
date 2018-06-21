@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 import { User } from '../_models/User';
 import { PaginatedResult } from './../_models/pagination';
+import { Message } from '../_models/Message';
 
 @Injectable()
 export class UserService {
@@ -104,6 +105,24 @@ export class UserService {
                 return paginatedResult;
             })
             .catch(this.handleError);
+    }
+
+    getMessage(id: number, page?: number, itemsPerPage?: number, messageContainer?: string) {
+        const paginatedResult: PaginatedResult<Message[]> = new PaginatedResult<Message[]>();
+        let queryString = `?MessageContainer=${messageContainer}&`;
+        if (page != null && itemsPerPage != null) {
+            queryString += `pageNumber=${page}&pageSize=${itemsPerPage}`;
+        }
+
+        return this.authHttp.get(`${this.baseUrl}users/${id}/messages/${queryString}`)
+            .map((response: Response) => {
+                paginatedResult.result = response.json();
+                if (response.headers.get('Pagination') != null) {
+                    paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+                }
+
+                return paginatedResult;
+            }).catch(this.handleError);
     }
 
     private handleError(error: any) {

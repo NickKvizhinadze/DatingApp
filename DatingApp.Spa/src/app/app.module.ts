@@ -29,6 +29,7 @@ import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { AlertifyService } from './_services/alertify.service';
 import { AuthService } from './_services/auth.service';
 import { UserService } from './_services/user.service';
+import { MessagesResolver } from './_resolvers/message.resolver';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { UserService } from './_services/user.service';
     MemberDetailResolver,
     MemberListResolver,
     MemberEditResolver,
-    ListsResolver
+    ListsResolver,
+    MessagesResolver
   ],
   bootstrap: [AppComponent]
 })
