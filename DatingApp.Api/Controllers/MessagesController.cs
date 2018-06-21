@@ -40,6 +40,32 @@ namespace DatingApp.Api.Dtos
             return Ok(_mapper.Map<MessageCreationDto>(result));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMessagesForUser(int userId, MessageParams messageParams)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var messages = await _repo.GetMessagesForUser(messageParams);
+
+            var result = _mapper.Map<IEnumerable<MessageDto>>(messages);
+            Response.AddPagination(messages.CurrentPage, messages.PageSize, messages.TotalCount, messages.TotalPages);
+
+            return Ok(result);
+        }
+
+        [HttpGet("thread/{id}")]
+        public async Task<IActionResult> GetMessageThread(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var messages = await _repo.GetMessagesThread(userId, id);
+            var result = _mapper.Map<IEnumerable<MessageDto>>(messages);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId, [FromBody] MessageCreationDto model)
         {
@@ -62,5 +88,6 @@ namespace DatingApp.Api.Dtos
 
             throw new Exception("Creating the message faild on Save");
         }
+
     }
 }
