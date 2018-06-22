@@ -15,6 +15,7 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { PhotoEditComponent } from './members/photo-edit/photo-edit.component';
 import { MessagesComponent } from './messages/messages.component';
 import { NavComponent } from './nav/nav.component';
@@ -26,10 +27,10 @@ import { ListsResolver } from './_resolvers/lists.resolver';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { MessagesResolver } from './_resolvers/message.resolver';
 import { AlertifyService } from './_services/alertify.service';
 import { AuthService } from './_services/auth.service';
 import { UserService } from './_services/user.service';
-import { MessagesResolver } from './_resolvers/message.resolver';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { MessagesResolver } from './_resolvers/message.resolver';
     MemberCardComponent,
     MemberDetailComponent,
     MemberEditComponent,
+    MemberMessagesComponent,
     PhotoEditComponent,
     TimeAgoPipe
 ],
