@@ -1,12 +1,13 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { User } from './../_models/User';
+import { AuthUser } from '../_models/AuthUser';
 
 @Injectable()
 export class AuthService {
@@ -14,65 +15,49 @@ export class AuthService {
     userToken: any;
     currentUser: User;
     decodedToken: any;
-    jwtHelper: JwtHelper = new JwtHelper();
     private photoUrl = new BehaviorSubject<string>('../../assets/user.png');
     currentPhotoUrl = this.photoUrl.asObservable();
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient, private jwtHelperService: JwtHelperService) { }
 
     changeMemberPhoto(photoUrl: string) {
         this.photoUrl.next(photoUrl);
     }
 
     login(model: any) {
-        return this.http.post(this.baseUrl + 'login', model, this.requestOptions()).map((response: Response) => {
-            const user = response.json();
-            if (user) {
-                localStorage.setItem('token', user.token);
-                localStorage.setItem('user', JSON.stringify(user.user));
-                this.decodedToken = this.jwtHelper.decodeToken(user.token);
-                this.userToken = user.token;
-                this.currentUser = user.user;
-                if (this.currentUser.photoUrl !== null) {
-                    this.changeMemberPhoto(this.currentUser.photoUrl);
-                } else {
-                    this.changeMemberPhoto('../../assets/user.png');
+        return this.http.post<AuthUser>(this.baseUrl + 'login', model, {
+            headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+        })
+            .map(user => {
+                if (user) {
+                    localStorage.setItem('token', user.token);
+                    localStorage.setItem('user', JSON.stringify(user.user));
+                    this.decodedToken = this.jwtHelperService.decodeToken(user.token);
+                    this.userToken = user.token;
+                    this.currentUser = user.user;
+                    if (this.currentUser.photoUrl !== null) {
+                        this.changeMemberPhoto(this.currentUser.photoUrl);
+                    } else {
+                        this.changeMemberPhoto('../../assets/user.png');
+                    }
                 }
-            }
-        }).catch(this.handleError);
+            });
     }
 
     register(model: User) {
-        return this.http.post(this.baseUrl + 'register', model, this.requestOptions()).catch(this.handleError);
+        return this.http.post(this.baseUrl + 'register', model, {
+            headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+        });
     }
 
     loggedIn() {
-        return tokenNotExpired('token');
-    }
-
-    private requestOptions() {
-        const headers = new Headers({ 'Content-type': 'application/json' });
-        return new RequestOptions({ headers: headers });
-    }
-
-    private handleError(error: any) {
-        const applicationError = error.headers.get('Application-Error');
-        if (applicationError) {
-            return Observable.throw(applicationError);
+        const token = this.jwtHelperService.tokenGetter();
+        if (!token) {
+            return false;
         }
 
-        const serverError = error.json();
-        let modelStateErrors = '';
-        if (serverError) {
-            for (const key in serverError) {
-                if (serverError[key]) {
-                    modelStateErrors += serverError[key] + '\n';
-                }
-            }
-        }
-
-        return Observable.throw(
-            modelStateErrors || 'Server error'
-        );
+        return !this.jwtHelperService.isTokenExpired(token);
     }
 }

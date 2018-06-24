@@ -91,7 +91,7 @@ namespace DatingApp.Api.Dtos
             _repo.Add(like);
 
             if (await _repo.SaveAll())
-                return Ok();
+                return Ok(new { });
 
             return BadRequest("Faild to like user");
         }
