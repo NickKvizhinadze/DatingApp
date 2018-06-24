@@ -90,5 +90,28 @@ namespace DatingApp.Api.Dtos
             throw new Exception("Creating the message faild on Save");
         }
 
+        [HttpPost("{id}")]
+        public async Task<ActionResult> DeleteMessage(int id, int userId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var message = await _repo.GetMessage(id);
+
+            if(message.SenderId == userId)
+                message.SenderDeleted = true;
+            
+            if(message.RecipientId == userId)
+                message.RecipientDeleted = true;
+
+            if(message.SenderDeleted && message.RecipientDeleted)
+                _repo.Delete(message);
+
+            if(await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception("Error deletin the message");
+        }
+
     }
 }
