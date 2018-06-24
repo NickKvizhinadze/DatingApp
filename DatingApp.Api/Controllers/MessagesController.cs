@@ -110,7 +110,27 @@ namespace DatingApp.Api.Dtos
             if(await _repo.SaveAll())
                 return NoContent();
 
-            throw new Exception("Error deletin the message");
+            throw new Exception("Error deleting the message");
+        }
+
+        [HttpPost("{id}/read")]
+        public async Task<ActionResult> MarkMessageAsRead(int userId, int id)
+        {
+             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var message = await _repo.GetMessage(id);
+
+            if(message.RecipientId != userId)
+                return BadRequest("Failed to mark message as read");
+
+            message.IsRead = true;
+            message.DateRead = DateTime.Now;
+
+            if(await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception("Error marking message as read");
         }
 
     }

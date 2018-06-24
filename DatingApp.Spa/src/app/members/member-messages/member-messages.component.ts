@@ -1,5 +1,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
+import 'rxjs/add/operator/do';
+import * as _ from 'underscore';
 import { Message } from '../../_models/Message';
 import { AlertifyService } from '../../_services/alertify.service';
 import { AuthService } from '../../_services/auth.service';
@@ -25,7 +27,15 @@ export class MemberMessagesComponent implements OnInit {
   }
 
   loadMessages() {
-    this.userService.getMessageThread(this.authService.decodedToken.nameid, this.userId)
+    const currentUserId = +this.authService.decodedToken.nameid;
+    this.userService.getMessageThread(currentUserId, this.userId)
+      .do(messages => {
+        _.each(messages, (message: Message) => {
+          if (message.isRead === false && message.recipientId === currentUserId) {
+            this.userService.markAsRead(currentUserId, message.id);
+          }
+        });
+      })
       .subscribe(
         messages => this.messages = messages,
         error => this.alertify.error(error));
