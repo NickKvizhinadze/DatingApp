@@ -43,11 +43,11 @@
     </ul>
   </div>
   <div class="panel-footer">
-    <form action="">
+    <form #messageForm="ngForm" (ngSubmit)="messageForm.valid && sendMessage()">
       <div class="input-group">
-        <input type="text" class="form-control input-sm" placeholder="send a private message">
+        <input type="text" name="content" [(ngModel)]="newMessage.content" class="form-control input-sm" placeholder="send a private message" required>
         <span class="input-group-btn">
-          <button class="btn btn-primary btn-sm">Send</button>
+          <button class="btn btn-primary btn-sm" [disabled]="!messageForm.valid">Send</button>
         </span>
       </div>
     </form>

@@ -75,6 +75,7 @@ namespace DatingApp.Api.Dtos
             model.SenderId = userId;
 
             var recipient = await _repo.GetUser(model.RecipientId);
+            var sender = await _repo.GetUser(model.SenderId);
             if (recipient == null)
                 return BadRequest("Could not find recipient");
 
@@ -82,7 +83,7 @@ namespace DatingApp.Api.Dtos
 
             _repo.Add(message);
 
-            var result = _mapper.Map<MessageCreationDto>(message);
+            var result = _mapper.Map<MessageDto>(message);
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetMessage", new { id = message.Id }, result);
 
