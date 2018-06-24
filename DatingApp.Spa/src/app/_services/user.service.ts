@@ -133,7 +133,13 @@ export class UserService {
 
     sendMessage(id: number, message: Message) {
         return this.authHttp.post(`${this.baseUrl}users/${id}/messages`, message)
-        .map((response: Response) => response.json())
+            .map((response: Response) => response.json())
+            .catch(this.handleError);
+    }
+
+
+    deleteMessage(id: number, userId: number) {
+        return this.authHttp.post(`${this.baseUrl}users/${userId}/messages/${id}`, {})
         .catch(this.handleError);
     }
 

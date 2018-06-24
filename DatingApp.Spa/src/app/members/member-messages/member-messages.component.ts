@@ -1,3 +1,4 @@
+
 import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../../_models/Message';
 import { AlertifyService } from '../../_services/alertify.service';

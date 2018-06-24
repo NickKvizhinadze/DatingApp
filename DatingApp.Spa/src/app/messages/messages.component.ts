@@ -1,10 +1,11 @@
-import { ActivatedRoute } from '@angular/router';
-import { AlertifyService } from './../_services/alertify.service';
-import { UserService } from './../_services/user.service';
-import { Pagination, PaginatedResult } from './../_models/pagination';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import * as _ from 'underscore';
 import { Message } from '../_models/Message';
 import { AuthService } from '../_services/auth.service';
+import { PaginatedResult, Pagination } from './../_models/pagination';
+import { AlertifyService } from './../_services/alertify.service';
+import { UserService } from './../_services/user.service';
 
 @Component({
   selector: 'messages',
@@ -41,6 +42,17 @@ export class MessagesComponent implements OnInit {
       this.pagination = res.pagination;
     }, error => {
       this.alertify.error(error);
+    });
+  }
+
+  deleteMessage($event: any, id: number) {
+    $event.stopPropagation();
+    this.alertify.confirm('Ar e yo sure you want to delete he message?', () => {
+      this.userService.deleteMessage(id, this.authService.decodedToken.nameid)
+        .subscribe(() => {
+          this.messages.splice(_.findIndex(this.messages, { id: id }), 1);
+          this.alertify.success('Message has been deleted');
+        }, error => this.alertify.error(error));
     });
   }
 
