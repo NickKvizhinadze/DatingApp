@@ -5,13 +5,13 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { User } from './../_models/User';
+import { environment } from '../../environments/environment';
 import { AuthUser } from '../_models/AuthUser';
+import { User } from './../_models/User';
 
 @Injectable()
 export class AuthService {
-    baseUrl = 'http://localhost:48200/api/auth/';
+    baseUrl = environment.apiUrl;
     userToken: any;
     currentUser: User;
     decodedToken: any;
@@ -25,7 +25,7 @@ export class AuthService {
     }
 
     login(model: any) {
-        return this.http.post<AuthUser>(this.baseUrl + 'login', model, {
+        return this.http.post<AuthUser>(this.baseUrl + 'auth/login', model, {
             headers: new HttpHeaders()
                 .set('Content-Type', 'application/json')
         })
@@ -46,7 +46,7 @@ export class AuthService {
     }
 
     register(model: User) {
-        return this.http.post(this.baseUrl + 'register', model, {
+        return this.http.post(this.baseUrl + 'auth/register', model, {
             headers: new HttpHeaders()
                 .set('Content-Type', 'application/json')
         });

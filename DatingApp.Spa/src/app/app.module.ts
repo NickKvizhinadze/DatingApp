@@ -34,6 +34,15 @@ import { AuthService } from './_services/auth.service';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { UserService } from './_services/user.service';
 
+export function GetAccessToken(): string {
+  return localStorage.getItem('token');
+}
+
+export const jwtConfig = {
+  tokenGetter: GetAccessToken,
+  whitelistedDomains: ['localhost:48200']
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,10 +72,7 @@ import { UserService } from './_services/user.service';
     ButtonsModule.forRoot(),
     HttpClientModule,
     JwtModule.forRoot({
-      config: {
-        tokenGetter: () => localStorage.getItem('token'),
-        whitelistedDomains: ['localhost:48200']
-      }
+      config: jwtConfig
     }),
     NgxGalleryModule,
     FileUploadModule,
